@@ -1,5 +1,7 @@
 package asd;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -176,7 +178,17 @@ public class MainApp extends javafx.application.Application {
         });
 
         Button btn_submit = new Button("Submit");
+        Hyperlink hyperlink = new Hyperlink("Support me at www.longdothanh.com");
+
+        hyperlink.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                getHostServices().showDocument("https://www.longdothanh.com");
+            }
+        });
+
         groupRoot.add(btn_submit, 2, 8, 2, 1);
+        groupRoot.add(hyperlink, 1, 9, 3, 1);
 
         btn_submit.setOnMouseClicked(event -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
