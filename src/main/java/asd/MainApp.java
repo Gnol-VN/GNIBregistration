@@ -1,3 +1,4 @@
+package asd;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -11,13 +12,16 @@ import javazoom.jl.player.Player;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
-public class Application extends javafx.application.Application {
+public class MainApp extends javafx.application.Application {
     //Is Current GNIB Holder
     static Boolean IS_CURRENT_GNIB_HOLDER = false;
     //Personal Information
@@ -36,18 +40,26 @@ public class Application extends javafx.application.Application {
     public static GridPane groupRoot = new GridPane();
 
     public static void main(String[] args) {
-        Application.launch(args);
+        MainApp.launch(args);
 
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        try {
+            InputStream in1 = new FileInputStream("Developed by Vietnamese.mp3");
+            Player playMP3 = new Player(in1);
+            playMP3.play();
+            playMP3 = new Player(in1);
+            playMP3.play();
+        } catch (Exception e) {
+
+        }
         primaryStage.setTitle("My First JavaFX App");
 
         primaryStage.show();
         groupRoot.setHgap(50);
         groupRoot.setVgap(4);
-        groupRoot.setGridLinesVisible(true);
         groupRoot.setPadding(new Insets(10));
         final int numCols = 4;
         final int numRows = 10;
@@ -96,6 +108,8 @@ public class Application extends javafx.application.Application {
 
         for (int i = 1960; i <= 2050; i++) {
             DOB_YearChoiceBox.getItems().add(i);
+        }
+        for (int i = 2000; i < 2050 ; i++) {
             EXP_YearChoiceBox.getItems().add(i);
         }
         TextField txt_firstName = new TextField("First name");
@@ -162,29 +176,107 @@ public class Application extends javafx.application.Application {
         });
 
         Button btn_submit = new Button("Submit");
-        Button btn_reset = new Button("Reset");
-        groupRoot.add(btn_submit,1, 8,2,1);
-        groupRoot.add(btn_reset,2, 8,2,1);
+        groupRoot.add(btn_submit,2, 8,2,1);
 
         btn_submit.setOnMouseClicked(event -> {
-            IS_CURRENT_GNIB_HOLDER = Boolean.valueOf(radioGroup.getSelectedToggle().getUserData().toString());
-            GNIBNO_STRING = txt_GNIBNo.getText();
-            YEAR_OF_BIRTH = DOB_YearChoiceBox.getValue().toString();
-            MONTH_OF_BIRTH_IN_LETTER = DOB_MonthChoiceBox.getValue().toString();
-            DAY_OF_BIRTH = DOB_DayChoiceBox.getValue().toString();
-            YEAR_OF_EXPIRE = EXP_YearChoiceBox.getValue().toString();
-            MONTH_OF_EXPIRE_IN_LETTER = EXP_MonthChoiceBox.getValue().toString();
-            DAY_OF_EXPIRE = EXP_DayChoiceBox.getValue().toString();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Alert missingInfoAlert = new Alert(Alert.AlertType.WARNING);
+
+            alert.setTitle("Review Information");
+            alert.setHeaderText("Please review your input information before submitting");
+            try{
+                IS_CURRENT_GNIB_HOLDER = Boolean.valueOf(radioGroup.getSelectedToggle().getUserData().toString());
+            }catch (NullPointerException e) {
+                missingInfoAlert.setTitle("Warning Dialog");
+                missingInfoAlert.setHeaderText("Please tick Yes or No in 'Current GNIB holder section'");
+                missingInfoAlert.showAndWait();
+            }
+            try{
+                YEAR_OF_BIRTH = DOB_YearChoiceBox.getValue().toString();
+            }catch (NullPointerException e) {
+                missingInfoAlert.setTitle("Warning Dialog");
+                missingInfoAlert.setHeaderText("Please select Year of Birth");
+                missingInfoAlert.showAndWait();
+            }
+            try{
+                MONTH_OF_BIRTH_IN_LETTER = DOB_MonthChoiceBox.getValue().toString();
+            }catch (NullPointerException e) {
+                missingInfoAlert.setTitle("Warning Dialog");
+                missingInfoAlert.setHeaderText("Please select Month of Birth");
+                missingInfoAlert.showAndWait();
+            }
+            try{
+                DAY_OF_BIRTH = DOB_DayChoiceBox.getValue().toString();
+            }catch (NullPointerException e) {
+                missingInfoAlert.setTitle("Warning Dialog");
+                missingInfoAlert.setHeaderText("Please select Day of Birth");
+                missingInfoAlert.showAndWait();
+            }
+
+
             FIRST_NAME = txt_firstName.getText();
             LAST_NAME = txt_lastname.getText();
             EMAIL = txt_email.getText();
             PASSPORT_NO = txt_passportNo.getText();
+            if (IS_CURRENT_GNIB_HOLDER) {
+                try{
+                    YEAR_OF_EXPIRE = EXP_YearChoiceBox.getValue().toString();
+                }catch (NullPointerException e) {
+                    missingInfoAlert.setTitle("Warning Dialog");
+                    missingInfoAlert.setHeaderText("Please select Year of GNIP expiry");
+                    missingInfoAlert.showAndWait();
+                }
+                try{
+                    MONTH_OF_EXPIRE_IN_LETTER = EXP_MonthChoiceBox.getValue().toString();
+                }catch (NullPointerException e) {
+                    missingInfoAlert.setTitle("Warning Dialog");
+                    missingInfoAlert.setHeaderText("Please select Month of GNIP expiry");
+                    missingInfoAlert.showAndWait();
+                }
+                try{
+                    DAY_OF_EXPIRE = EXP_DayChoiceBox.getValue().toString();
+                }catch (NullPointerException e) {
+                    missingInfoAlert.setTitle("Warning Dialog");
+                    missingInfoAlert.setHeaderText("Please select Day of GNIP expiry");
+                    missingInfoAlert.showAndWait();
+                }
+                try{
+                    GNIBNO_STRING = txt_GNIBNo.getText();
+                }catch (NullPointerException e) {
+                    missingInfoAlert.setTitle("Warning Dialog");
+                    missingInfoAlert.setHeaderText("Please specify GNIB number");
+                    missingInfoAlert.showAndWait();
+                }
+                alert.setContentText("First name: "+ FIRST_NAME +"\nLast name: " + LAST_NAME +"\n" +
+                        "DOB: "+ DAY_OF_BIRTH +" " + MONTH_OF_BIRTH_IN_LETTER + " "+ YEAR_OF_BIRTH +"\n" +
+                        "Email: "+ EMAIL +"\n" +
+                        "Passport No: " +PASSPORT_NO+"\n" +
+                        "Having GNIB: " + IS_CURRENT_GNIB_HOLDER + "\n" +
+                        "GNIB No: " + GNIBNO_STRING +"\n" +
+                        "Expire date: " + DAY_OF_EXPIRE + " " + MONTH_OF_EXPIRE_IN_LETTER +" "+ YEAR_OF_EXPIRE);
+            }
+            else {
+                alert.setContentText("First name: "+ FIRST_NAME +"\nLast name: " + LAST_NAME +"\n" +
+                        "DOB: "+ DAY_OF_BIRTH +" " + MONTH_OF_BIRTH_IN_LETTER + " "+ YEAR_OF_BIRTH +"\n" +
+                        "Email: "+ EMAIL +"\n" +
+                        "Passport No: " +PASSPORT_NO+"\n" +
+                        "Having GNIB: " + IS_CURRENT_GNIB_HOLDER);
+            }
 
-            register();
+            ButtonType btn_yes = new ButtonType("Yes");
+            ButtonType btn_no = new ButtonType("No");
+
+            alert.getButtonTypes().setAll(btn_yes, btn_no);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == btn_yes){
+                register();
+            }
+
         });
 
 
-        Scene scene = new Scene(groupRoot, 1024, 768);
+        Scene scene = new Scene(groupRoot, 400, 600);
         primaryStage.setTitle("Sample Long");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -195,9 +287,8 @@ public class Application extends javafx.application.Application {
     public static void register() {
 
         try {
-            InputStream in1 = new FileInputStream("Developed by Vietnamese.mp3");
             InputStream in2 = new FileInputStream("Begin.mp3");
-            Player playMP3 = new Player(in1);
+            Player playMP3 = new Player(in2);
             playMP3.play();
             playMP3 = new Player(in2);
             playMP3.play();
@@ -205,8 +296,10 @@ public class Application extends javafx.application.Application {
 
         }
         System.setProperty("webdriver.chrome.driver", "chromedriver");
+        ChromeOptions options = new ChromeOptions();
+        options.addExtensions(new File("recaptcha2.crx"));
         System.getProperties();
-        ChromeDriver driver = new ChromeDriver();
+        ChromeDriver driver = new ChromeDriver(options);
         driver.get("https://burghquayregistrationoffice.inis.gov.ie/Website/AMSREG/AMSRegWeb.nsf/AppSelect?OpenForm"); //launch Firefox and open Url
 
 //        WebElement cat = driver.findElement()
@@ -373,11 +466,8 @@ public class Application extends javafx.application.Application {
             } catch (Exception e) {
 
             }
-
-
         }
         try {
-
             System.out.println("FOUND");
             InputStream in = new FileInputStream("Appointment detected.mp3");
             Player playMP3 = new Player(in);
