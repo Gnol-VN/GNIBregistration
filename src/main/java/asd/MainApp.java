@@ -288,7 +288,7 @@ public class MainApp extends javafx.application.Application {
 
 
         Scene scene = new Scene(groupRoot, 400, 600);
-        primaryStage.setTitle("Sample Long");
+        primaryStage.setTitle("IRP/GNIB Registration by Long Do Thanh");
         primaryStage.setScene(scene);
         primaryStage.show();
 
