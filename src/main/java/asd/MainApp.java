@@ -27,6 +27,7 @@ public class MainApp extends javafx.application.Application {
     //Is Current GNIB Holder
     static Boolean IS_CURRENT_GNIB_HOLDER = false;
     //Personal Information
+    static String SALUTATION = "Mr";
     static String GNIBNO_STRING = "a";
     static String YEAR_OF_BIRTH = "1971";
     static String MONTH_OF_BIRTH_IN_LETTER = "Dec";
@@ -48,15 +49,6 @@ public class MainApp extends javafx.application.Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        try {
-            InputStream in1 = new FileInputStream("Developed by Vietnamese.mp3");
-            Player playMP3 = new Player(in1);
-            playMP3.play();
-            playMP3 = new Player(in1);
-            playMP3.play();
-        } catch (Exception e) {
-
-        }
         primaryStage.setTitle("My First JavaFX App");
 
         primaryStage.show();
@@ -75,6 +67,7 @@ public class MainApp extends javafx.application.Application {
             rowConst.setPrefHeight(50);
             groupRoot.getRowConstraints().add(rowConst);
         }
+        Label lbl_salutation = new Label("Salutation");
         Label lbl_firstName = new Label("First name");
         Label lbl_lastName = new Label("Last name");
         Label lbl_DOB = new Label("DOB");
@@ -82,17 +75,23 @@ public class MainApp extends javafx.application.Application {
         Label lbl_passportNo = new Label("Passport \nnumber");
         Label lbl_isGnibHolder = new Label("Is a current \n   GNIB/IRP holder?");
         Label lbl_GNIBNo = new Label("GNIB number");
-        Label lbl_GNIBExp = new Label("GNIB \nExpiry");
 
-        groupRoot.add(lbl_firstName, 0, 0, 2, 1);
-        groupRoot.add(lbl_lastName, 0, 1, 2, 1);
-        groupRoot.add(lbl_DOB, 0, 2, 2, 1);
-        groupRoot.add(lbl_email, 0, 3, 2, 1);
-        groupRoot.add(lbl_passportNo, 0, 4, 2, 1);
-        groupRoot.add(lbl_isGnibHolder, 0, 5, 2, 1);
-        groupRoot.add(lbl_GNIBNo, 0, 6, 2, 1);
-        groupRoot.add(lbl_GNIBExp, 0, 7, 2, 1);
+        groupRoot.add(lbl_salutation, 0, 0, 2, 1);
+        groupRoot.add(lbl_firstName, 0, 1, 2, 1);
+        groupRoot.add(lbl_lastName, 0, 2, 2, 1);
+        groupRoot.add(lbl_DOB, 0, 3, 2, 1);
+        groupRoot.add(lbl_email, 0, 4, 2, 1);
+        groupRoot.add(lbl_passportNo, 0, 5, 2, 1);
+        groupRoot.add(lbl_isGnibHolder, 0, 6, 2, 1);
+        groupRoot.add(lbl_GNIBNo, 0, 7, 2, 1);
 
+
+        ChoiceBox salutationChoiceBox = new ChoiceBox();
+        salutationChoiceBox.getItems().add("Mr");
+        salutationChoiceBox.getItems().add("Ms");
+        salutationChoiceBox.getItems().add("Miss");
+        salutationChoiceBox.getItems().add("Mrs");
+        salutationChoiceBox.getItems().add("Dr");
 
         ChoiceBox DOB_DayChoiceBox = new ChoiceBox();
         ChoiceBox DOB_MonthChoiceBox = new ChoiceBox();
@@ -114,11 +113,11 @@ public class MainApp extends javafx.application.Application {
         for (int i = 2000; i < 2050; i++) {
             EXP_YearChoiceBox.getItems().add(i);
         }
-        TextField txt_firstName = new TextField("First name");
-        TextField txt_lastname = new TextField("Last name");
-        TextField txt_email = new TextField("abc@gmail.com");
-        TextField txt_passportNo = new TextField("A9999999");
-        TextField txt_GNIBNo = new TextField("R123456");
+        TextField txt_firstName = new TextField("Do");
+        TextField txt_lastname = new TextField("Thanh Long");
+        TextField txt_email = new TextField("thelongdt@gmail.com");
+        TextField txt_passportNo = new TextField("C9531616");
+        TextField txt_GNIBNo = new TextField("R6908862");
         RadioButton txt_currentGNIBYes = new RadioButton("Yes");
         RadioButton txt_currentGNIBNo = new RadioButton("No");
         txt_currentGNIBYes.setUserData("true");
@@ -127,8 +126,9 @@ public class MainApp extends javafx.application.Application {
         txt_currentGNIBNo.setToggleGroup(radioGroup);
         txt_currentGNIBYes.setToggleGroup(radioGroup);
 
-        groupRoot.add(txt_firstName, 1, 0, 3, 1);
-        groupRoot.add(txt_lastname, 1, 1, 3, 1);
+        groupRoot.add(salutationChoiceBox, 1, 0, 3, 1);
+        groupRoot.add(txt_firstName, 1, 1, 3, 1);
+        groupRoot.add(txt_lastname, 1, 2, 3, 1);
 
         HBox hBox1 = new HBox();
         hBox1.setSpacing(20);
@@ -137,42 +137,39 @@ public class MainApp extends javafx.application.Application {
         hBox1.getChildren().add(DOB_DayChoiceBox);
         hBox1.getChildren().add(DOB_MonthChoiceBox);
         hBox1.getChildren().add(DOB_YearChoiceBox);
-        groupRoot.add(hBox1, 1, 2, 3, 1);
-        groupRoot.add(txt_email, 1, 3, 3, 1);
-        groupRoot.add(txt_passportNo, 1, 4, 3, 1);
+        groupRoot.add(hBox1, 1, 3, 3, 1);
+        groupRoot.add(txt_email, 1, 4, 3, 1);
+        groupRoot.add(txt_passportNo, 1, 5, 3, 1);
         HBox hBox2 = new HBox();
         hBox2.setSpacing(50);
         hBox2.setPadding(new Insets(14, 0, 0, 0));
 
         hBox2.getChildren().add(txt_currentGNIBNo);
         hBox2.getChildren().add(txt_currentGNIBYes);
-        groupRoot.add(hBox2, 2, 5, 2, 1);
+        groupRoot.add(hBox2, 2, 6, 2, 1);
 
-        groupRoot.add(txt_GNIBNo, 1, 6, 3, 1);
+        groupRoot.add(txt_GNIBNo, 1, 7, 3, 1);
         HBox hBox3 = new HBox();
         hBox3.setSpacing(20);
         hBox3.setPadding(new Insets(14, 0, 0, 0));
 
-        hBox3.getChildren().add(EXP_DayChoiceBox);
-        hBox3.getChildren().add(EXP_MonthChoiceBox);
-        hBox3.getChildren().add(EXP_YearChoiceBox);
-        groupRoot.add(hBox3, 1, 7, 3, 1);
+//        hBox3.getChildren().add(EXP_DayChoiceBox);
+//        hBox3.getChildren().add(EXP_MonthChoiceBox);
+//        hBox3.getChildren().add(EXP_YearChoiceBox);
+//        groupRoot.add(hBox3, 1, 8, 3, 1);
 
         txt_GNIBNo.setVisible(false);
         lbl_GNIBNo.setVisible(false);
         hBox3.setVisible(false);
-        lbl_GNIBExp.setVisible(false);
 
         txt_currentGNIBNo.setOnAction(event -> {
             hBox3.setVisible(false);
             lbl_GNIBNo.setVisible(false);
             txt_GNIBNo.setVisible(false);
-            lbl_GNIBExp.setVisible(false);
         });
         txt_currentGNIBYes.setOnAction(event -> {
             hBox3.setVisible(true);
             lbl_GNIBNo.setVisible(true);
-            lbl_GNIBExp.setVisible(true);
             txt_GNIBNo.setVisible(true);
 
         });
@@ -187,8 +184,8 @@ public class MainApp extends javafx.application.Application {
             }
         });
 
-        groupRoot.add(btn_submit, 2, 8, 2, 1);
-        groupRoot.add(hyperlink, 1, 9, 3, 1);
+        groupRoot.add(btn_submit, 2, 9, 2, 1);
+        groupRoot.add(hyperlink, 1, 10, 3, 1);
 
         btn_submit.setOnMouseClicked(event -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -225,33 +222,33 @@ public class MainApp extends javafx.application.Application {
                 missingInfoAlert.showAndWait();
             }
 
-
+            SALUTATION = salutationChoiceBox.getValue().toString();
             FIRST_NAME = txt_firstName.getText();
             LAST_NAME = txt_lastname.getText();
             EMAIL = txt_email.getText();
             PASSPORT_NO = txt_passportNo.getText();
             if (IS_CURRENT_GNIB_HOLDER) {
-                try {
-                    YEAR_OF_EXPIRE = EXP_YearChoiceBox.getValue().toString();
-                } catch (NullPointerException e) {
-                    missingInfoAlert.setTitle("Warning Dialog");
-                    missingInfoAlert.setHeaderText("Please select Year of GNIP expiry");
-                    missingInfoAlert.showAndWait();
-                }
-                try {
-                    MONTH_OF_EXPIRE_IN_LETTER = EXP_MonthChoiceBox.getValue().toString();
-                } catch (NullPointerException e) {
-                    missingInfoAlert.setTitle("Warning Dialog");
-                    missingInfoAlert.setHeaderText("Please select Month of GNIP expiry");
-                    missingInfoAlert.showAndWait();
-                }
-                try {
-                    DAY_OF_EXPIRE = EXP_DayChoiceBox.getValue().toString();
-                } catch (NullPointerException e) {
-                    missingInfoAlert.setTitle("Warning Dialog");
-                    missingInfoAlert.setHeaderText("Please select Day of GNIP expiry");
-                    missingInfoAlert.showAndWait();
-                }
+//                try {
+//                    YEAR_OF_EXPIRE = EXP_YearChoiceBox.getValue().toString();
+//                } catch (NullPointerException e) {
+//                    missingInfoAlert.setTitle("Warning Dialog");
+//                    missingInfoAlert.setHeaderText("Please select Year of GNIP expiry");
+//                    missingInfoAlert.showAndWait();
+//                }
+//                try {
+//                    MONTH_OF_EXPIRE_IN_LETTER = EXP_MonthChoiceBox.getValue().toString();
+//                } catch (NullPointerException e) {
+//                    missingInfoAlert.setTitle("Warning Dialog");
+//                    missingInfoAlert.setHeaderText("Please select Month of GNIP expiry");
+//                    missingInfoAlert.showAndWait();
+//                }
+//                try {
+//                    DAY_OF_EXPIRE = EXP_DayChoiceBox.getValue().toString();
+//                } catch (NullPointerException e) {
+//                    missingInfoAlert.setTitle("Warning Dialog");
+//                    missingInfoAlert.setHeaderText("Please select Day of GNIP expiry");
+//                    missingInfoAlert.showAndWait();
+//                }
                 try {
                     GNIBNO_STRING = txt_GNIBNo.getText();
                 } catch (NullPointerException e) {
@@ -264,8 +261,7 @@ public class MainApp extends javafx.application.Application {
                         "Email: " + EMAIL + "\n" +
                         "Passport No: " + PASSPORT_NO + "\n" +
                         "Having GNIB: " + IS_CURRENT_GNIB_HOLDER + "\n" +
-                        "GNIB No: " + GNIBNO_STRING + "\n" +
-                        "Expire date: " + DAY_OF_EXPIRE + " " + MONTH_OF_EXPIRE_IN_LETTER + " " + YEAR_OF_EXPIRE);
+                        "GNIB No: " + GNIBNO_STRING + "\n");
             } else {
                 alert.setContentText("First name: " + FIRST_NAME + "\nLast name: " + LAST_NAME + "\n" +
                         "DOB: " + DAY_OF_BIRTH + " " + MONTH_OF_BIRTH_IN_LETTER + " " + YEAR_OF_BIRTH + "\n" +
@@ -281,7 +277,11 @@ public class MainApp extends javafx.application.Application {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == btn_yes) {
-                register();
+                try {
+                    register();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
         });
@@ -295,7 +295,7 @@ public class MainApp extends javafx.application.Application {
 //        register();
     }
 
-    public static void register() {
+    public static void register() throws Exception {
 
         try {
             InputStream in2 = new FileInputStream("Begin.mp3");
@@ -309,66 +309,70 @@ public class MainApp extends javafx.application.Application {
 
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("win")) {
-            System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", "C:\\Users\\dothanhl\\IdeaProjects\\GNIBregistration\\src\\main\\java\\chromedriver.exe");
         } else if (os.contains("mac"))
             System.setProperty("webdriver.chrome.driver", "chromedriver");
         ChromeOptions options = new ChromeOptions();
-        options.addExtensions(new File("recaptcha2.crx"));
         System.getProperties();
         ChromeDriver driver = new ChromeDriver(options);
         driver.get("https://burghquayregistrationoffice.inis.gov.ie/Website/AMSREG/AMSRegWeb.nsf/AppSelect?OpenForm"); //launch Firefox and open Url
 
 //        WebElement cat = driver.findElement()
+        Thread.sleep(1000);
+        WebElement cookieBanner = driver.findElement(By.cssSelector("#cookiescript_close"));
+        cookieBanner.click();
+
         Select category = new Select(driver.findElement(By.cssSelector("#category")));
         category.selectByVisibleText("All");
 
         Select subCategory = new Select(driver.findElement(By.cssSelector("#subcategory")));
         subCategory.selectByVisibleText("All");
 
-        Select ConfirmGNIB = new Select(driver.findElement(By.cssSelector("#ConfirmGNIB")));
         if (IS_CURRENT_GNIB_HOLDER) {
-            ConfirmGNIB.selectByVisibleText("Yes");
             WebElement GNIBNo = driver.findElement(By.cssSelector("#GNIBNo"));
             GNIBNo.sendKeys(GNIBNO_STRING);
-        } else ConfirmGNIB.selectByVisibleText("No");
+        }
 
 
         WebElement UsrDeclaration = driver.findElement(By.name("UsrDeclaration"));
         UsrDeclaration.click();
 
-        if (IS_CURRENT_GNIB_HOLDER) {
-            WebElement GNIBExDT = driver.findElement(By.cssSelector("#GNIBExDT"));
-            GNIBExDT.sendKeys("k");
+//        if (IS_CURRENT_GNIB_HOLDER) {
+//            WebElement GNIBExDT = driver.findElement(By.cssSelector("#GNIBExDT"));
+//            GNIBExDT.sendKeys("k");
+//
+//
+//            boolean foundEXPIRE = false;
+//            List<WebElement> expiredYears = driver.findElements(By.cssSelector(".datepicker-years table tbody tr td span "));
+//            for (WebElement year : expiredYears) {
+//                if (year.getText().equals(YEAR_OF_EXPIRE)) {
+//                    year.click();
+//                    List<WebElement> months = driver.findElements(By.cssSelector(".datepicker-months table tbody tr td span "));
+//                    for (WebElement month : months) {
+//                        if (month.getText().equals(MONTH_OF_EXPIRE_IN_LETTER)) {
+//                            month.click();
+//                            List<WebElement> days = driver.findElements(By.cssSelector(".datepicker-days table tbody tr td.day"));
+//                            for (WebElement day : days) {
+//                                if (day.getAttribute("class").contains("old"))
+//                                    continue;
+//                                if (day.getText().equals(DAY_OF_EXPIRE)) {
+//                                    day.click();
+//                                    foundEXPIRE = true;
+//                                    break;
+//                                }
+//
+//                            }
+//                        }
+//                        if (foundEXPIRE) break;
+//                    }
+//                }
+//                if (foundEXPIRE) break;
+//            }
+//
+//        }
 
-
-            boolean foundEXPIRE = false;
-            List<WebElement> expiredYears = driver.findElements(By.cssSelector(".datepicker-years table tbody tr td span "));
-            for (WebElement year : expiredYears) {
-                if (year.getText().equals(YEAR_OF_EXPIRE)) {
-                    year.click();
-                    List<WebElement> months = driver.findElements(By.cssSelector(".datepicker-months table tbody tr td span "));
-                    for (WebElement month : months) {
-                        if (month.getText().equals(MONTH_OF_EXPIRE_IN_LETTER)) {
-                            month.click();
-                            List<WebElement> days = driver.findElements(By.cssSelector(".datepicker-days table tbody tr td.day"));
-                            for (WebElement day : days) {
-                                if (day.getAttribute("class").contains("old"))
-                                    continue;
-                                if (day.getText().equals(DAY_OF_EXPIRE)) {
-                                    day.click();
-                                    foundEXPIRE = true;
-                                    break;
-                                }
-
-                            }
-                        }
-                        if (foundEXPIRE) break;
-                    }
-                }
-                if (foundEXPIRE) break;
-            }
-
-        }
+        Select salutationSelectBox = new Select(driver.findElement(By.cssSelector("#Salutation")));
+        salutationSelectBox.selectByVisibleText(SALUTATION);
 
         WebElement GivenName = driver.findElement(By.cssSelector("#GivenName"));
         GivenName.sendKeys(FIRST_NAME);
@@ -380,22 +384,22 @@ public class MainApp extends javafx.application.Application {
         DOB.sendKeys("");
 
         int numberOfCLick = 0;
-        if (Integer.valueOf(YEAR_OF_BIRTH) >= 2010) {
+        if (Integer.valueOf(YEAR_OF_BIRTH) >= 2020) {
 
         } else {
-            if (Integer.valueOf(YEAR_OF_BIRTH) >= 2000) {
+            if (Integer.valueOf(YEAR_OF_BIRTH) >= 2010) {
                 numberOfCLick = 1;
             } else {
-                if (Integer.valueOf(YEAR_OF_BIRTH) >= 1990) {
+                if (Integer.valueOf(YEAR_OF_BIRTH) >= 2000) {
                     numberOfCLick = 2;
                 } else {
-                    if (Integer.valueOf(YEAR_OF_BIRTH) >= 1980) {
+                    if (Integer.valueOf(YEAR_OF_BIRTH) >= 1990) {
                         numberOfCLick = 3;
                     } else {
-                        if (Integer.valueOf(YEAR_OF_BIRTH) >= 1970) {
+                        if (Integer.valueOf(YEAR_OF_BIRTH) >= 1980) {
                             numberOfCLick = 4;
                         } else {
-                            if (Integer.valueOf(YEAR_OF_BIRTH) >= 1960) {
+                            if (Integer.valueOf(YEAR_OF_BIRTH) >= 1970) {
                                 numberOfCLick = 5;
                             }
                         }
@@ -470,7 +474,7 @@ public class MainApp extends javafx.application.Application {
             btSrch4Apps.click();
             WebElement bookthis;
             try {
-                Thread.sleep(100);
+                Thread.sleep(10000);
                 bookthis = driver.findElement(By.cssSelector(".appOption"));
                 foundAppointment = true;
                 bookthis.click();
